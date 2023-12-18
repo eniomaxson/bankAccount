@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBank.Domain", "src\MyBank
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBank.Console", "src\MyBank.Console\MyBank.Console.csproj", "{2A9149B2-635D-4975-B866-29B0D6FA2EBA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBank.API", "src\MyBank.API\MyBank.API.csproj", "{05A45B87-EB2F-443C-953D-FEB497E963B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{2A9149B2-635D-4975-B866-29B0D6FA2EBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A9149B2-635D-4975-B866-29B0D6FA2EBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A9149B2-635D-4975-B866-29B0D6FA2EBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A45B87-EB2F-443C-953D-FEB497E963B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A45B87-EB2F-443C-953D-FEB497E963B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A45B87-EB2F-443C-953D-FEB497E963B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A45B87-EB2F-443C-953D-FEB497E963B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F0BBF011-A933-41C3-B213-F1733840816C} = {773E0756-53EC-44C4-8C7A-9B5A1BDB1E61}
 		{2A9149B2-635D-4975-B866-29B0D6FA2EBA} = {773E0756-53EC-44C4-8C7A-9B5A1BDB1E61}
+		{05A45B87-EB2F-443C-953D-FEB497E963B7} = {773E0756-53EC-44C4-8C7A-9B5A1BDB1E61}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC1AE059-7E68-4ACA-A762-C4E4BB7BBA88}

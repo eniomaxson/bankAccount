@@ -1,7 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using MyBank.API.Data;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger());
 
 builder.Services.AddDbContext<MyBankDbContext>(options =>
 {

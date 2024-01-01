@@ -8,21 +8,27 @@ namespace MyBank.API.Features.WithdrawingFunds;
 public class Endpoint : EndpointBaseAsync.WithRequest<WithdrawFundsRequest>.WithActionResult
 {
     private readonly MyBankDbContext _myBankDbContext;
+    private readonly ILogger<Endpoint> _logger;
 
-    public Endpoint(MyBankDbContext myBankDbContext)
+    public Endpoint(MyBankDbContext myBankDbContext, ILogger<Endpoint> logger)
     {
         _myBankDbContext = myBankDbContext;
+        _logger = logger;
     }
 
     [HttpPost("/api/withdraw-funds")]
     [SwaggerOperation(Tags = new string[] { "BankAccount" })]
     public override async Task<ActionResult> HandleAsync(WithdrawFundsRequest request, CancellationToken cancellationToken = default)
     {
-        await WithdrawFunds.HandleAsync(
-            request,
-            _myBankDbContext.BankAccounts,
-            _myBankDbContext.AddAndSaveChangesAsync
-        );
+        try
+        {
+            await WithdrawFunds.HandleAsync(request, _myBankDbContext.BankAccounts, _myBankDbContext.AddAndSaveChangesAsync);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to withdraw funds");
+            return BadRequest(e.Message);
+        }
 
         return Accepted();
     }

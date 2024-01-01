@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MyBank.API.Data;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace MyBank.API.Features.BankStatement
+namespace MyBank.API.Features.GettingBankStatement
 {
     public class Endpoint : EndpointBaseAsync.WithoutRequest.WithActionResult
     {

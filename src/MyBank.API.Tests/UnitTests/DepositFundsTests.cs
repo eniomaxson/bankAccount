@@ -1,7 +1,7 @@
 ﻿using MyBank.API.Domain;
 using MyBank.API.Features.DepositingFunds;
 
-namespace MyBank.API.Tests.Features;
+namespace MyBank.API.Tests.UnitTests;
 
 public class DepositFundsTests
 {

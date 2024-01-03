@@ -1,8 +1,10 @@
 ﻿using MyBank.API.Domain;
+using Serilog;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyBank.API.Features.DepositingFunds;
 
-public record DepositFundsRequest(int BankAccountId, decimal Amount);
+public record DepositFundsRequest([Required] int BankAccountId, [Required] decimal Amount);
 
 public static class DepositFunds
 {
@@ -22,6 +24,8 @@ public static class DepositFunds
         {
             throw new InvalidOperationException("Invalid deposit amount");
         }
+
+        Log.Information("Deposit funds received {@request}", request);
 
         var transaction = new BankTransaction
         {

@@ -9,7 +9,7 @@ namespace MyBank.API.Data
         public MyBankDbContext(DbContextOptions<MyBankDbContext> options) : base(options)
         { }
 
-        public async ValueTask<int> AddAndSaveChangesAsync<T>(T model) where T : class
+        public virtual async ValueTask<int> AddAndSaveChangesAsync<T>(T model) where T : class
         {
             await AddAsync(model);
 

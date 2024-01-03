@@ -1,9 +1,10 @@
 ﻿using MyBank.API.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyBank.API.Features.WithdrawingFunds;
 
 
-public record WithdrawFundsRequest(int BankAccountId, decimal Amount);
+public record WithdrawFundsRequest([Required] int BankAccountId, [Required] decimal Amount);
 
 public static class WithdrawFunds
 {

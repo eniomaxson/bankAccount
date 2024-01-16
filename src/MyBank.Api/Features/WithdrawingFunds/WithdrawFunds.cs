@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBank.API.Features.WithdrawingFunds;
 
-
 public record WithdrawFundsRequest([Required] int BankAccountId, [Required] decimal Amount);
 
 public static class WithdrawFunds

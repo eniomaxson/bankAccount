@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MyBank.API.Data;
 using Serilog;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,18 +42,29 @@ void ConfigureApi(WebApplicationBuilder builder)
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(x => x.EnableAnnotations());
     builder.Services.AddControllers();
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:Secret"]!)),
+            ValidAlgorithms = new List<string> { SecurityAlgorithms.HmacSha256 },
+        };
+    });
 }
 
 void UseApplication(WebApplication app)
 {
-    //app.Lifetime.ApplicationStarted.Register(() =>
-    //{
-    //    using var scope = app.Services.CreateScope();
-    //    var context = scope.ServiceProvider.GetRequiredService<MyBankDbContext>();
+    // app.Lifetime.ApplicationStarted.Register(() =>
+    // {
+    //     using var scope = app.Services.CreateScope();
+    //     var context = scope.ServiceProvider.GetRequiredService<MyBankDbContext>();
 
-    //    context.Database.EnsureDeleted();
-    //    context.Database.EnsureCreated();
-    //});
+    //     context.Database.EnsureDeleted();
+    //     context.Database.EnsureCreated();
+    // });
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -60,7 +74,11 @@ void UseApplication(WebApplication app)
     }
 
     app.UseRouting();
-    app.MapControllers();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapDefaultControllerRoute();
 }
 
 public partial class Program { }

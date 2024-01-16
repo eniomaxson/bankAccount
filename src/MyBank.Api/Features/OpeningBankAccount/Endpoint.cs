@@ -1,11 +1,15 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBank.API.Data;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyBank.API.Features.OpeningBankAccount;
 
-public class Endpoint : EndpointBaseAsync.WithRequest<OpenBankAccountRequest>.WithActionResult
+
+[Authorize()]
+[Route("api/v1")]
+public class Endpoint : EndpointBaseAsync.WithoutRequest.WithActionResult
 {
     private readonly MyBankDbContext _myBankDbContext;
     private readonly ILogger<Endpoint> _logger;
@@ -16,12 +20,13 @@ public class Endpoint : EndpointBaseAsync.WithRequest<OpenBankAccountRequest>.Wi
         _logger = logger;
     }
 
-    [HttpPost("/api/open-bank-account")]
+    [HttpPost("openbankaccount")]
     [SwaggerOperation(Tags = new string[] { "BankAccount" })]
-    public override async Task<ActionResult> HandleAsync(OpenBankAccountRequest request, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult> HandleAsync(CancellationToken cancellationToken = default)
     {
         try
         {
+            var request = new OpenBankAccountRequest(User.Identity!.Name!);
             await OpenBankAccount.HandleAsync(request, _myBankDbContext.AddAndSaveChangesAsync);
         }
         catch (Exception e)

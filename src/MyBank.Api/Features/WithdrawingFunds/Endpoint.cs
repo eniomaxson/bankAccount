@@ -1,10 +1,13 @@
 ﻿using Ardalis.ApiEndpoints;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBank.API.Data;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyBank.API.Features.WithdrawingFunds;
 
+[Authorize()]
+[Route("api/v1")]
 public class Endpoint : EndpointBaseAsync.WithRequest<WithdrawFundsRequest>.WithActionResult
 {
     private readonly MyBankDbContext _myBankDbContext;
@@ -16,7 +19,7 @@ public class Endpoint : EndpointBaseAsync.WithRequest<WithdrawFundsRequest>.With
         _logger = logger;
     }
 
-    [HttpPost("/api/withdraw-funds")]
+    [HttpPost("withdrawfunds")]
     [SwaggerOperation(Tags = new string[] { "BankAccount" })]
     public override async Task<ActionResult> HandleAsync(WithdrawFundsRequest request, CancellationToken cancellationToken = default)
     {

@@ -6,19 +6,15 @@ namespace MyBank.API.Features.DepositingFunds;
 
 public record DepositFundsRequest([Required] int BankAccountId, [Required] decimal Amount);
 
-public static class DepositFunds
+internal static class DepositFunds
 {
     internal static async ValueTask HandleAsync(
         DepositFundsRequest request,
         IQueryable<BankAccount> querable,
         Func<BankTransaction, ValueTask<int>> addAndSaveAsync)
     {
-        var bankAccount = querable.FirstOrDefault(ba => ba.Id == request.BankAccountId);
-
-        if (bankAccount is null)
-        {
-            throw new Exception("Bank account not found");
-        }
+        var bankAccount = querable.FirstOrDefault(ba => ba.Id == request.BankAccountId)
+            ?? throw new Exception("Bank account not found");
 
         if (request.Amount <= 0)
         {
@@ -27,7 +23,7 @@ public static class DepositFunds
 
         Log.Information("Deposit funds received {@request}", request);
 
-        var transaction = new BankTransaction
+        BankTransaction transaction = new()
         {
             BankAccountId = request.BankAccountId,
             Amount = request.Amount,

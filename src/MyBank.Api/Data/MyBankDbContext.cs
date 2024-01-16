@@ -5,7 +5,9 @@ namespace MyBank.API.Data
 {
     public class MyBankDbContext : DbContext
     {
-        public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<User> Users => Set<User>();
+        public DbSet<BankAccount> BankAccounts => Set<BankAccount>();
+
         public MyBankDbContext(DbContextOptions<MyBankDbContext> options) : base(options)
         { }
 

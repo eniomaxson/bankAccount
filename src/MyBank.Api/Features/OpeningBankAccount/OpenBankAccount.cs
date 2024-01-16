@@ -3,9 +3,9 @@ using Serilog;
 using System.ComponentModel.DataAnnotations;
 namespace MyBank.API.Features.OpeningBankAccount;
 
-public record OpenBankAccountRequest([Required] string Owner);
+record OpenBankAccountRequest([Required] string Owner);
 
-public static class OpenBankAccount
+internal static class OpenBankAccount
 {
     internal static async Task HandleAsync(OpenBankAccountRequest request, Func<BankAccount, ValueTask<int>> addAndSaveAsync)
     {

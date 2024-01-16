@@ -12,7 +12,6 @@ namespace MyBank.API.Tests.IntegrationTests;
 
 public class OpenBankAccountEndpointTests
 {
-    private object application;
 
     [Fact]
     public async Task OpenBnakAccount_RequestValid_ShouldCreateBankAccount()

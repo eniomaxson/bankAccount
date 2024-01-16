@@ -6,7 +6,7 @@ namespace MyBank.API.Tests.UnitTests;
 public class OpenBankAccountTests
 {
     [Fact]
-    public async Task ValidOpenBnakRequest_ShouldCreateBankAccount()
+    public async Task ValidOpenBnakRequest_ShouldCreateBankAccountWithZeroAsInitialBalance()
     {
         var openBankAccountRequest = new OpenBankAccountRequest("Someone");
 

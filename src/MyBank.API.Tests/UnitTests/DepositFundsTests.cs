@@ -5,29 +5,24 @@ namespace MyBank.API.Tests.UnitTests;
 
 public class DepositFundsTests
 {
-    private BankAccount _bankAccount;
-
-    public DepositFundsTests()
-    {
-        _bankAccount = new BankAccount
-        {
-            Id = 1,
-            Balance = 0,
-            Owner = "Someone"
-        };
-    }
+    private List<BankAccount> _bankAccounts = new() {
+        new(){ Id = 1, Balance = 0, Owner = "Someone"},
+        new(){ Id = 2, Balance=1000, Owner="Someone else"}
+    };
 
     [Fact]
-    public async Task ValidDepositRequest_ShouldAddFunds()
+    public async Task ValidAmmountAndBankAccountId_AddFundsToAccount()
     {
         // Arrange
-        var queryable = new List<BankAccount> { _bankAccount }.AsQueryable();
+
+        var queryable = _bankAccounts.AsQueryable();
+        var bankAccount = _bankAccounts.First();
 
         var addAndSaveAsyncAssert = (BankTransaction tran) =>
         {
             Assert.Equal(1000, tran.Amount);
             Assert.Equal(0, tran.OldBalance);
-            Assert.Equal(1, tran.BankAccountId);
+            Assert.Equal(bankAccount.Id, tran.BankAccountId);
 
             return ValueTask.FromResult(1);
         };
@@ -38,18 +33,17 @@ public class DepositFundsTests
         await DepositFunds.HandleAsync(depositFundRequest, queryable, addAndSaveAsyncAssert);
 
         // Assert
-        Assert.Equal(1000, _bankAccount.Balance);
+        Assert.Equal(1000, bankAccount.Balance);
     }
 
     [Fact]
-    public void DepositRequestWithNegativeAmount_ShouldThrowsInvalidOperationException()
+    public void NegativeAmount_ThrowsInvalidOperationException()
     {
-        var queryable = new List<BankAccount> { _bankAccount }.AsQueryable();
+        var queryable = _bankAccounts.AsQueryable();
 
         var addAndSaveAsyncAssert = (BankTransaction tran) =>
         {
             Assert.Fail("Should not be called");
-
             return ValueTask.FromResult(1);
         };
 
@@ -61,7 +55,7 @@ public class DepositFundsTests
     }
 
     [Fact]
-    public void DepositRequestWithInvalidBankAccountId_ShouldThrowsArgumentOutOfRangeException()
+    public void InvalidBankAccountId_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var queryable = new List<BankAccount> { }.AsQueryable();
